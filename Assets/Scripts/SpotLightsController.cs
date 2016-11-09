@@ -39,12 +39,19 @@ public class SpotLightsController : MonoBehaviour {
             BottomMiddle,
             BottomRight
         };
+
+        DisableAll();
     }
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
+    void DisableAll()
+    {
+        setLightsActive(false, All);
+    }
 
     static void setLightsActive(bool active, IEnumerable<GameObject> lights)
     {
