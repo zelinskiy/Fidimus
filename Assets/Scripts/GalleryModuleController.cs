@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine.VR;
 
+
+
 public class GalleryModuleController : MonoBehaviour
 {
 
@@ -15,45 +17,76 @@ public class GalleryModuleController : MonoBehaviour
 
     public ButtonController PlayAttachedClipButton;
 
+    public Color? RoomColor = null;
+
     private AudioSource _audioSource;
     private const string testClip = "file:///C:/_Projects/Fidimus/Assets/MyPictures/GrandBudapestHotel/test1.ogg";
     public string ClipPath = "";
+
+    private static System.Random rand = new System.Random();
+
+    private static Color[] RandomColors = new Color[]
+    {
+        Color.blue,
+        Color.cyan,
+        Color.gray,
+        Color.green,
+        Color.magenta,
+        Color.red,
+        Color.yellow
+    };
 
     // Use this for initialization
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
-        
-        PlayAttachedClipButton.OnPressed += () =>
+
+        PlayAttachedClipButton.OnPressed += ToggleAudioPlaying;
+        print(GetComponent<Renderer>().material.color);
+        if(RoomColor != null)
         {
-            if (ClipPath == "")
-            {
-                return;
-            }
-            if (_audioSource.clip == null)
-            {
-                StartCoroutine(LoadAndPlayAudio(ClipPath));
-                return;
-            }
-            if (_audioSource.isPlaying)
-            {
-                _audioSource.Pause();
-            }
-            else
-            {
-                _audioSource.Play();
-            }
-            print("bang! " + _audioSource.clip.length);
-
-        };
+            GetComponent<Renderer>().material.color = RoomColor.Value;
+        }        
     }
 
-    // Update is called once per frame
-    void Update()
+    public static Color GetRandomColor(bool fromPreferred)
     {
-        
+        if (fromPreferred)
+        {
+            return RandomColors[rand.Next(0, RandomColors.Length - 1)];
+        }
+        else
+        {
+            return new Color(
+                UnityEngine.Random.value, 
+                UnityEngine.Random.value, 
+                UnityEngine.Random.value);
+        }        
     }
 
+    void ToggleAudioPlaying()
+    {
+        if (ClipPath == "")
+        {
+            return;
+        }
+        if (_audioSource.clip == null)
+        {
+            StartCoroutine(LoadAndPlayAudio(ClipPath));
+            return;
+        }
+        if (_audioSource.isPlaying)
+        {
+            _audioSource.Pause();
+        }
+        else
+        {
+            _audioSource.Play();
+        }
+        print("bang! " + _audioSource.clip.length);
+    }
+
+    
     void LoadPicture(string filePath)
     {
         var fileData = File.ReadAllBytes(filePath);
@@ -94,6 +127,8 @@ public class GalleryModuleController : MonoBehaviour
         }
         
     }
+
+
     
 
 

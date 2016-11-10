@@ -1,4 +1,7 @@
 Check max audio size
+
 Corridor entrances
-doors
+
++doors
+
 colored rooms

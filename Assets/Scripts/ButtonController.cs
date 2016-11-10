@@ -18,6 +18,7 @@ public class ButtonController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+        OnPressed += () => {};
 	    Audio = GetComponent<AudioSource>();
         Anim = GetComponent<Animation>();
         gameObject.GetComponent<Renderer>().material.color = Color.yellow;

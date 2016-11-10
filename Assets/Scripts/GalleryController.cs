@@ -9,7 +9,9 @@ public class GalleryController : MonoBehaviour {
     public GameObject GalleryBegin;
     public GameObject CorridorSegment;
 
-    
+    public bool PaintRooms = true;
+    public bool PaintCorridors = false;
+
 
     private float corridorSegmentLength = -16f;
     private float corridorSegmentWidth = -10f;
@@ -67,6 +69,9 @@ public class GalleryController : MonoBehaviour {
             {
                 Debug.LogWarning("Clips in " + folder + " not found!");
             }
+
+            var corridorColor = GalleryModuleController.GetRandomColor(false);
+
             for (int j = 0; j < files.Length; j++)
             {
                 var filename =  files[j];
@@ -79,7 +84,10 @@ public class GalleryController : MonoBehaviour {
                 newSeg.SendMessage("LoadPicture", filename);
                 newSeg.transform.parent = GalleryBegin.transform;
 
+
                 
+                var controller = newSeg.GetComponent<GalleryModuleController>();
+
                 var name = filename.Substring(0, filename.Length - 4);
                 var attachedClip = clips.FirstOrDefault(c => c.EndsWith(name + ".ogg"));
                 if (attachedClip != null)
@@ -87,10 +95,19 @@ public class GalleryController : MonoBehaviour {
                     attachedClip = @"file:///" + attachedClip.Replace("\\", "/");
                     attachedClip = attachedClip.Replace(" ", "%20");
                     print("Found clip " + attachedClip);
-                    newSeg
-                        .GetComponent<GalleryModuleController>()
-                        .ClipPath = attachedClip;
+                    
+                    controller.ClipPath = attachedClip;                    
                 }
+
+                if (PaintCorridors)
+                {
+                    controller.RoomColor = corridorColor;
+                }
+                if (PaintRooms)
+                {
+                    controller.RoomColor = GalleryModuleController.GetRandomColor(false);
+                }
+                
 
             }
 

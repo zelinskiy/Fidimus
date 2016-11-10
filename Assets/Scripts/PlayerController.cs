@@ -14,8 +14,7 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start ()
 	{
-	    camera = GetComponentInChildren<Camera>();
-        
+	    camera = GetComponentInChildren<Camera>();          
     }
 	
 	// Update is called once per frame
