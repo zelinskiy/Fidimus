@@ -32,9 +32,9 @@ public class GalleryModuleController : MonoBehaviour
     private const string testClip = "file:///C:/_Projects/Fidimus/Assets/MyPictures/GrandBudapestHotel/test1.ogg";
     public string ClipPath = "";
 
-    private static System.Random rand = new System.Random();
+    private static readonly System.Random rand = new System.Random();
 
-    private static Color[] RandomColors = new Color[]
+    private static readonly Color[] RandomColors = 
     {
         Color.blue,
         Color.cyan,
@@ -51,11 +51,7 @@ public class GalleryModuleController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         PlayAttachedClipButton.OnPressed += ToggleAudioPlaying;
-        print(GetComponent<Renderer>().material.color);
-        if(RoomColor != null)
-        {
-            GetComponent<Renderer>().material.color = RoomColor.Value;
-        }        
+        UpdateColor();
     }
 
     public static Color GetRandomColor(bool fromPreferred)
@@ -117,9 +113,6 @@ public class GalleryModuleController : MonoBehaviour
             .Take(2)
             .Last()
             .insertEvery("\n", 8);
-
-        
-
     }
 
     void SetDescription(FileDescription desc)
@@ -135,6 +128,15 @@ public class GalleryModuleController : MonoBehaviour
             + "Created at: \n" + desc.CreatedAt + "\n"
             + "Last modified: \n" + desc.LastWrite + "\n"
             + "Last accessed: \n" + desc.LastAccess;
+    }
+
+    void UpdateColor()
+    {
+        print(GetComponent<Renderer>().material.color);
+        if (RoomColor != null)
+        {
+            GetComponent<Renderer>().material.color = RoomColor.Value;
+        }
     }
 
     IEnumerator LoadAndPlayAudio(string filePath)
