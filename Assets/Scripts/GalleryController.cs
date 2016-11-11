@@ -36,7 +36,7 @@ public class GalleryController : MonoBehaviour {
         var folders = Directory
             .GetDirectories(rootfolder)
             .ToArray();
-
+            
         if (folders.Length == 0)
         {
             Debug.LogWarning("Folders in " + rootfolder + " not found!");
@@ -75,7 +75,15 @@ public class GalleryController : MonoBehaviour {
             for (int j = 0; j < files.Length; j++)
             {
                 var filename =  files[j];
-                
+
+                var description = new FileDescription()
+                {
+                    CreatedAt = File.GetCreationTime(filename).ToString("dd.MM.yyyy HH:mm"),
+                    LastAccess = File.GetLastAccessTime(filename).ToString("dd.MM.yyyy HH:mm"),
+                    LastWrite = File.GetLastWriteTime(filename).ToString("dd.MM.yyyy HH:mm"),
+                    FileName = filename.Split('\\', '/').Last()
+                };
+
                 var rot = GalleryBegin.transform.rotation;
                 var pos = GalleryBegin.transform.position;
                 pos.z += corridorSegmentLength * (j + 1);
@@ -96,7 +104,8 @@ public class GalleryController : MonoBehaviour {
                     attachedClip = attachedClip.Replace(" ", "%20");
                     print("Found clip " + attachedClip);
                     
-                    controller.ClipPath = attachedClip;                    
+                    controller.ClipPath = attachedClip;
+                    description.AudioAttached = attachedClip.Split('/', '\\').Last();
                 }
 
                 if (PaintCorridors)
@@ -107,7 +116,13 @@ public class GalleryController : MonoBehaviour {
                 {
                     controller.RoomColor = GalleryModuleController.GetRandomColor(false);
                 }
-                
+
+                controller.SendMessage("SetDescription", description);
+
+                if(j == files.Length - 1)
+                {
+                    controller.CorridorEnd.SetActive(true);
+                }
 
             }
 

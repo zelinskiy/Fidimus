@@ -6,14 +6,23 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine.VR;
 
-
+public class FileDescription
+{
+    public string FileName { get; set; }
+    public string AudioAttached { get; set; }
+    public string LastAccess { get; set; }
+    public string LastWrite { get; set; }
+    public string CreatedAt { get; set; }
+}
 
 public class GalleryModuleController : MonoBehaviour
 {
 
     public GameObject Painting;
     public TextMesh EntranceLabel;
+    public TextMesh DescriptionLabel;
     public Transform PaintingNameLabels;
+    public GameObject CorridorEnd;
 
     public ButtonController PlayAttachedClipButton;
 
@@ -109,6 +118,23 @@ public class GalleryModuleController : MonoBehaviour
             .Last()
             .insertEvery("\n", 8);
 
+        
+
+    }
+
+    void SetDescription(FileDescription desc)
+    {
+        if(desc.AudioAttached == null)
+        {
+            desc.AudioAttached = "None";
+        }
+
+        DescriptionLabel.text = "D E S C R I P T I O N\n"
+            + "File name: \n" + desc.FileName + "\n"
+            + "Audio attached: \n" + desc.AudioAttached + "\n"
+            + "Created at: \n" + desc.CreatedAt + "\n"
+            + "Last modified: \n" + desc.LastWrite + "\n"
+            + "Last accessed: \n" + desc.LastAccess;
     }
 
     IEnumerator LoadAndPlayAudio(string filePath)
