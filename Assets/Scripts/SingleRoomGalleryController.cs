@@ -18,11 +18,13 @@ internal class PicsFolder
     public Pic[] Pics;
 }
 
-public class SingleRoomGalleryController : MonoBehaviour {
+public class SingleRoomGalleryController : MonoBehaviour, IHasSettings {
 
-    public string CustomPicturesFolderName = "MyPictures";
-    public bool PaintCorridors;
-    public bool PaintRooms;
+    public string DefaultPicturesFolderName = "MyPictures";
+    public string CustomPicturesFolderPath { get; set; }
+    public bool CustomPicturesFolderSet { get; set; }
+    public bool PaintCorridors { get; set; }
+    public bool PaintRooms { get; set; }
 
     public ButtonController NextFolderButtonController;
     public ButtonController NextFileButtonController;
@@ -38,12 +40,14 @@ public class SingleRoomGalleryController : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        SettingsLoader.LoadSettingsToGallery(this);
         Room = GetComponent<GalleryModuleController>();
         GenerateGallery();
         NextFolderButtonController.OnPressed += NextFolder;
         NextFileButtonController.OnPressed += NextPicture;
         PrevFolderButtonController.OnPressed += PrevFolder;
         PrevFileButtonController.OnPressed += PrevPicture;
+        NextPicture();
     }
 
     void NextFolder()
@@ -102,7 +106,12 @@ public class SingleRoomGalleryController : MonoBehaviour {
     {
         var rootfolder = Path.Combine(
             Application.dataPath,
-            CustomPicturesFolderName);
+            DefaultPicturesFolderName);
+        
+        if (CustomPicturesFolderSet)
+        {
+            rootfolder = CustomPicturesFolderPath;
+        }
 
         Folders = Directory
             .GetDirectories(rootfolder)

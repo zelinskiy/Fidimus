@@ -3,15 +3,17 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 
-public class GalleryController : MonoBehaviour {
+public class GalleryController : MonoBehaviour, IHasSettings
+{
 
-    public string CustomPicturesFolderName = "MyPictures";
+    public string DefaultPicturesFolderName = "MyPictures";
     public GameObject GalleryBegin;
     public GameObject CorridorSegment;
 
-    public bool PaintRooms = true;
-    public bool PaintCorridors = false;
-
+    public string CustomPicturesFolderPath { get; set; }
+    public bool CustomPicturesFolderSet { get; set; }
+    public bool PaintCorridors { get; set; }
+    public bool PaintRooms { get; set; }
 
     private float corridorSegmentLength = -16f;
     private float corridorSegmentWidth = -10f;
@@ -19,6 +21,7 @@ public class GalleryController : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        SettingsLoader.LoadSettingsToGallery(this);
         GenerateGallery();
     }
 	
@@ -31,7 +34,12 @@ public class GalleryController : MonoBehaviour {
     {
         var rootfolder = Path.Combine(
             Application.dataPath,
-            CustomPicturesFolderName);
+            DefaultPicturesFolderName);
+
+        if (CustomPicturesFolderSet)
+        {
+            rootfolder = CustomPicturesFolderPath;
+        }
 
         var folders = Directory
             .GetDirectories(rootfolder)

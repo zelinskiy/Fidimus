@@ -1,0 +1,4 @@
+CustomFolderPath=C:\Users\nick\Desktop\MyPictures
+CustomFolderSet=true
+PaintCorridors=false
+PaintRooms=false
