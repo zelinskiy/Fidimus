@@ -31,8 +31,12 @@ public class SingleRoomGalleryController : MonoBehaviour, IHasSettings {
     public ButtonController PrevFolderButtonController;
     public ButtonController PrevFileButtonController;
 
+    public Transform FolderNameLabels;
+    public TextMesh FolderStructureDescriptionLabel;
+
     private GalleryModuleController Room;
     private PicsFolder[] Folders;
+
 
     private int FolderIndex;
     private int PicIndex;
@@ -48,6 +52,35 @@ public class SingleRoomGalleryController : MonoBehaviour, IHasSettings {
         PrevFolderButtonController.OnPressed += PrevFolder;
         PrevFileButtonController.OnPressed += PrevPicture;
         NextPicture();
+    }
+
+    void UpdateFolderDescription()
+    {
+        var res = "F O L D E R S\n\n";
+        var i = 0;
+        var j = 0;
+        foreach(var fold in Folders)
+        {
+            var folderName = fold.Path.Split('\\', '/').Last();
+            res += "§ " + folderName + "\n";
+            j = 0;
+            foreach(var file in fold.Pics)
+            {
+                var fileText = "\t\t■ " + file.Path.Split('\\', '/').Last();
+                if( i == FolderIndex && j == PicIndex)
+                {
+                    fileText = "\t\t=> " + file.Path.Split('\\', '/').Last();
+                }
+                if (!string.IsNullOrEmpty(file.Clip))
+                {
+                    fileText += " ♬";
+                }
+                res += fileText + "\n";
+                j++;
+            }
+            i++;
+        }
+        FolderStructureDescriptionLabel.text = res;
     }
 
     void NextFolder()
@@ -99,8 +132,35 @@ public class SingleRoomGalleryController : MonoBehaviour, IHasSettings {
         Room.SendMessage("SetDescription", pic.Description);
         Room.SendMessage("LoadPicture", pic.Path);
         Room.SendMessage("UpdateColor");
+        Room.GetComponent<AudioSource>().clip = null;
+        if(pic.Clip == null)
+        {
+            Room.PlayAttachedClipButton.DisableButton();
+        }
+        else
+        {
+            Room.ClipPath = pic.Clip;
+            Room.PlayAttachedClipButton.EnableButton();
+        }
+        UpdateFolderDescription();
+        foreach(Transform c in FolderNameLabels)
+        {
+            c.GetComponent<TextMesh>().text = pic.Path.Split('\\', '/').Reverse().Skip(1).First();
+        }
     }
 
+
+
+    private static string ColorToString(Color col)
+    {
+        return string.Format("#{0:X2}{1:X2}{2:X2}", ToByte(col.r), ToByte(col.g), ToByte(col.b), ToByte(col.a));
+    }
+
+    private static byte ToByte(float f)
+    {
+        f = Mathf.Clamp01(f);
+        return (byte)(f * 255);
+    }
 
     void GenerateGallery()
     {
@@ -147,8 +207,6 @@ public class SingleRoomGalleryController : MonoBehaviour, IHasSettings {
 
             foreach(var pic in folder.Pics)
             {
-
-
 
                 var filenameNoExtension = pic
                     .Path

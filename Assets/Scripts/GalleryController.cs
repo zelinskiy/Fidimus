@@ -114,6 +114,12 @@ public class GalleryController : MonoBehaviour, IHasSettings
                     
                     controller.ClipPath = attachedClip;
                     description.AudioAttached = attachedClip.Split('/', '\\').Last();
+
+                    controller.PlayAttachedClipButton.EnableButton();
+                }
+                else
+                {
+                    controller.PlayAttachedClipButton.DisableButton();
                 }
 
                 if (PaintCorridors)
@@ -124,6 +130,8 @@ public class GalleryController : MonoBehaviour, IHasSettings
                 {
                     controller.RoomColor = GalleryModuleController.GetRandomColor(false);
                 }
+
+                
 
                 controller.SendMessage("SetDescription", description);
 

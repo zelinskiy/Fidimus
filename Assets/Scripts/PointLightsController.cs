@@ -5,12 +5,12 @@ public class PointLightsController : MonoBehaviour
 {
     private int currentState = 0;
 
+    private bool allEnabled;
+
 	// Use this for initialization
 	void Start ()
 	{
         DisableAll();
-
-
     }
 	
 	// Update is called once per frame
@@ -24,6 +24,27 @@ public class PointLightsController : MonoBehaviour
         {
             c.gameObject.SetActive(false);
         }
+    }
+    void EnableAll()
+    {
+        foreach (Transform c in transform)
+        {
+            c.gameObject.SetActive(true);
+        }
+    }
+
+    void ToggleAll()
+    {
+        if (allEnabled)
+        {
+            DisableAll();
+        }
+        else
+        {
+            EnableAll();
+        }
+        allEnabled = !allEnabled;
+        
     }
 
     void NextMode()

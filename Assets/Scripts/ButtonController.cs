@@ -15,13 +15,24 @@ public class ButtonController : MonoBehaviour
     private Animation Anim;
     private AudioSource Audio;
 
+    public Color Color
+    {
+        get
+        {
+            return GetComponent<Renderer>().material.color;
+        }
+        set
+        {
+            GetComponent<Renderer>().material.color = value;
+        }
+    }
+
 	// Use this for initialization
 	void Start ()
 	{
         OnPressed += () => {};
 	    Audio = GetComponent<AudioSource>();
         Anim = GetComponent<Animation>();
-        gameObject.GetComponent<Renderer>().material.color = Color.yellow;
 	}
 	
 	// Update is called once per frame
@@ -34,5 +45,17 @@ public class ButtonController : MonoBehaviour
         OnPressed.Invoke();
         Audio.Play();
         Anim.Play("ButtonPressing");
+    }
+
+    
+
+    public void DisableButton()
+    {
+        transform.parent.gameObject.SetActive(false);
+    }
+
+    public void EnableButton()
+    {
+        transform.parent.gameObject.SetActive(true);
     }
 }

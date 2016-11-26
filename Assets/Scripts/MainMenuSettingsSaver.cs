@@ -15,11 +15,14 @@ public class MainMenuSettingsSaver : MonoBehaviour {
 
     public Button ExitButton;
 
+    public Button OpenFolderButton;
+
     // Use this for initialization
     void Start () {
         RunBigButton.onClick.AddListener(OnRunBigButtonClick);
         RunSmallButton.onClick.AddListener(OnRunSmallButtonClick);
         ExitButton.onClick.AddListener(OnExitButtonClick);
+        OpenFolderButton.onClick.AddListener(OnOpenFolderButtonClick);
     }
 
     void OnRunBigButtonClick()
@@ -41,6 +44,11 @@ public class MainMenuSettingsSaver : MonoBehaviour {
         SaveSettings();
         Application.Quit();
         print("Exit");
+    }
+
+    void OnOpenFolderButtonClick()
+    {
+        System.Diagnostics.Process.Start(Path.Combine(Application.dataPath, "MyPictures"));
     }
 
     void SaveSettings()

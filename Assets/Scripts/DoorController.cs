@@ -35,6 +35,8 @@ public class DoorController : MonoBehaviour {
                 rightAnim.Play("OpenRightDoor");
                 LeftDoor.GetComponent<AudioSource>().Play();
                 RightDoor.GetComponent<AudioSource>().Play();
+                OuterButton.Color = Color.black;
+                InnerButton.Color = Color.black;
             }
             else
             {
@@ -43,6 +45,8 @@ public class DoorController : MonoBehaviour {
                 rightAnim.Play("CloseRightDoor");
                 LeftDoor.GetComponent<AudioSource>().Play();
                 RightDoor.GetComponent<AudioSource>().Play();
+                OuterButton.Color = Color.red;
+                InnerButton.Color = Color.red;
             }            
             IsClosed = !IsClosed;   
         }

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public Text TipText;
     public Button ExitButton;
+    public Image AimImage;
 
     private Camera camera;
     private RaycastHit hit;
@@ -63,6 +64,10 @@ public class PlayerController : MonoBehaviour
             OnEscapePressed();
             OnExitButtonClick();
         }
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            AimImage.gameObject.SetActive(!AimImage.gameObject.activeSelf);
+        }
 
         ray = camera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
@@ -70,7 +75,7 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.tag == "Button")
             {
                 TipText.text = "press E";
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     hit
                         .transform

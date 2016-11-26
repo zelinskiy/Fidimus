@@ -51,6 +51,7 @@ public class GalleryModuleController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         PlayAttachedClipButton.OnPressed += ToggleAudioPlaying;
+        PlayAttachedClipButton.Color = Color.black;
         UpdateColor();
     }
 
@@ -77,15 +78,18 @@ public class GalleryModuleController : MonoBehaviour
         }
         if (_audioSource.clip == null)
         {
+            PlayAttachedClipButton.Color = Color.red;
             StartCoroutine(LoadAndPlayAudio(ClipPath));
             return;
         }
         if (_audioSource.isPlaying)
         {
+            PlayAttachedClipButton.Color = Color.black;
             _audioSource.Pause();
         }
         else
         {
+            PlayAttachedClipButton.Color = Color.red;
             _audioSource.Play();
         }
         print("bang! " + _audioSource.clip.length);
