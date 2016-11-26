@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class MainMenuSettingsSaver : MonoBehaviour {
 
@@ -18,24 +19,27 @@ public class MainMenuSettingsSaver : MonoBehaviour {
     void Start () {
         RunBigButton.onClick.AddListener(OnRunBigButtonClick);
         RunSmallButton.onClick.AddListener(OnRunSmallButtonClick);
-        RunSmallButton.onClick.AddListener(OnExitButtonClick);
+        ExitButton.onClick.AddListener(OnExitButtonClick);
     }
 
     void OnRunBigButtonClick()
     {
         SaveSettings();
+        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
         print("Big");
     }
 
     void OnRunSmallButtonClick()
     {
         SaveSettings();
+        SceneManager.LoadScene("SingleRoom", LoadSceneMode.Single);
         print("Small");
     }
 
     void OnExitButtonClick()
     {
         SaveSettings();
+        Application.Quit();
         print("Exit");
     }
 

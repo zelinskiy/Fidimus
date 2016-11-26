@@ -8,9 +8,10 @@ public class PointLightsController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	    DisableAll();
+        LightEvery(2);
 
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
