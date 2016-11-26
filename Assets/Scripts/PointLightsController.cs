@@ -8,7 +8,7 @@ public class PointLightsController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-        LightEvery(2);
+        DisableAll();
 
 
     }

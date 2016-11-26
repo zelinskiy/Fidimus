@@ -1,4 +1,4 @@
-PaintCorridors=false
-PaintRooms=false
+PaintCorridors=true
+PaintRooms=true
 CustomFolderPath=NONE
 CustomFolderSet=false
