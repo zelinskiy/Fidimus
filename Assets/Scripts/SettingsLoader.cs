@@ -15,6 +15,14 @@ public class SettingsLoader : MonoBehaviour {
         "PaintRooms"
     };
 
+    public static readonly Dictionary<string, string> DefaultSettings = new Dictionary<string, string>()
+    {
+        { "CustomFolderPath", "NONE" },
+        { "CustomFolderSet", "false" },
+        { "PaintCorridors", "false" },
+        { "PaintRooms", "false" },
+    };
+
     public static void LoadSettingsToGallery(IHasSettings gallery)
     {
         Dictionary<string, string> settingsDict;
@@ -33,7 +41,7 @@ public class SettingsLoader : MonoBehaviour {
     }
 
 
-    private static bool TryLoadSettings(out Dictionary<string, string> res, string filePath)
+    public static bool TryLoadSettings(out Dictionary<string, string> res, string filePath)
     {
         res = new Dictionary<string, string>();
         try
