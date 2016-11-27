@@ -64,9 +64,9 @@ public class GalleryModuleController : MonoBehaviour
         else
         {
             return new Color(
-                UnityEngine.Random.value, 
-                UnityEngine.Random.value, 
-                UnityEngine.Random.value);
+                UnityEngine.Random.value / 2.0f, 
+                UnityEngine.Random.value / 2.0f, 
+                UnityEngine.Random.value / 2.0f);
         }        
     }
 
